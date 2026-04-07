@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./Styles/fonts.css";
 import { HeroSection } from "./App/Components/HeroSection";
 import { ScrapbookSection } from "./App/Components/ScrapbookSection";
@@ -5,6 +6,11 @@ import { MemoryWallSection } from "./App/Components/MemoryWallSection";
 import { BackgroundDecorations } from "./App/Components/BackgroundDecorations";
 
 export default function App() {
+
+  useEffect(() => {
+    document.title = "Happy Birthday ลล"; // <- ชื่อเว็บตรงนี้
+  }, []);
+
   return (
     <div
       className="w-full min-h-screen"
