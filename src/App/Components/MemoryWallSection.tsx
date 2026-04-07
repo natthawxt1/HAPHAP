@@ -19,6 +19,7 @@ const PHOTOS = {
   p6: "/images/second_1.jpg",
   p7: "/images/2_pic.jpg",
   p8: "/images/IMG_4569.mov",
+  p9: "/images/4_pic.jpg",
 };
 
 const CAPTIONS = {
@@ -28,6 +29,7 @@ const CAPTIONS = {
   c4: "My favorite road trips are the ones with you. Happy birthday to my partner in everything kub.",
   c5: "I'm so proud of the amazing person you are. Happy birthday. I'll always be cheering for you kub. ♥",
   c6: "Forever grateful for every single day with you. Happy birthday,Lilian. ♥",
+  c7: "You are my greatest gift. Happy birthday, forever yours. ♥",
 };
 // =============================================
 
@@ -325,7 +327,7 @@ export function MemoryWallSection() {
           </div>
 
           {/* ── ROW 2 ── */}
-          <div className="flex flex-wrap items-start gap-3 md:gap-4 mt-1">
+          <div className="flex flex-wrap items-start gap-3 md:gap-4 mt-8">
 
             {/* Photo 4 + caption below */}
             <div className="flex flex-col gap-2">
@@ -400,6 +402,21 @@ export function MemoryWallSection() {
                 inView={inView}
               />
               <Caption text={CAPTIONS.c6} delay={0.85} inView={inView} />
+            </div>
+
+            {/* Photo 9 tall portrait + caption below */}
+            <div className="flex flex-col gap-2">
+              <Photo
+                src={PHOTOS.p9}
+                alt="memory 9"
+                width="clamp(140px, 18vw, 200px)"
+                height="clamp(260px, 40vw, 380px)"
+                frame="pink"
+                rotate={3.5}
+                delay={0.5}
+                inView={inView}
+              />
+              <Caption text={CAPTIONS.c7} delay={0.9} inView={inView} />
             </div>
 
           </div>
