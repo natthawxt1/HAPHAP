@@ -6,18 +6,19 @@ import { BackgroundDecorations } from "./BackgroundDecorations";
 // =============================================
 // 📸 แก้ไข captions และ URL รูปภาพที่นี่ได้เลย!
 // =============================================
-const LEFT_TEXT = `Happy birthday, [ชื่อแฟน]! Life is always more fun with you. Thank you for filling my days with laughter and love.`;
+const LEFT_TEXT = `Happy birthday,Lilian! Life is always more fun with you. Thank you for filling my days with laughter and love.`;
 
 const HEADER = "More memories, more adventures, more moments with you, my love";
 
 const PHOTOS = {
-  p1: "/images/2_pic.jpg",
+  p1: "/images/IMG_3768.mov",
   p2: "/images/3_pic.jpg",
-  p3: "/images/4_pic.jpg",
+  p3: "/images/copy.mov",
   p4: "/images/5_pic.jpg",
   p5: "/images/6_pic.jpg",
-  p6: "/images/2_pic.jpg",
-  p7: "/images/3_pic.jpg",
+  p6: "/images/second_1.jpg",
+  p7: "/images/2_pic.jpg",
+  p8: "/images/IMG_4569.mov",
 };
 
 const CAPTIONS = {
@@ -26,6 +27,7 @@ const CAPTIONS = {
   c3: "No matter where we are, as long as I'm with you,",
   c4: "My favorite road trips are the ones with you. Happy birthday to my partner in everything kub.",
   c5: "I'm so proud of the amazing person you are. Happy birthday. I'll always be cheering for you kub. ♥",
+  c6: "Forever grateful for every single day with you. Happy birthday,Lilian. ♥",
 };
 // =============================================
 
@@ -55,6 +57,61 @@ function StampFrame({ children }: { children: React.ReactNode }) {
   );
 }
 
+/* Polaroid style frame */
+function PolaroidFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        background: "white",
+        padding: "8px 8px 24px 8px",
+        boxShadow: "4px 6px 20px rgba(0,0,0,0.6)",
+      }}
+    >
+      {children}
+      <div
+        style={{
+          marginTop: "6px",
+          height: "3px",
+          background: "repeating-linear-gradient(90deg, #ff6b9d 0px, #ff6b9d 2px, transparent 2px, transparent 4px)",
+        }}
+      />
+    </div>
+  );
+}
+
+/* Colored border frame */
+function ColoredFrame({ children, color = "#ff6b9d" }: { children: React.ReactNode; color?: string }) {
+  return (
+    <div
+      style={{
+        background: color,
+        padding: "4px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
+      }}
+    >
+      <div style={{ background: "white", padding: "6px" }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/* Dotted frame */
+function DottedFrame({ children, color = "#c9a96e" }: { children: React.ReactNode; color?: string }) {
+  return (
+    <div
+      style={{
+        padding: "6px",
+        border: `2px dotted ${color}`,
+        background: "transparent",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
 /* Plain frame (white border) */
 function PlainFrame({ children, bw = false }: { children: React.ReactNode; bw?: boolean }) {
   return (
@@ -69,7 +126,7 @@ function PlainFrame({ children, bw = false }: { children: React.ReactNode; bw?: 
   );
 }
 
-type FrameType = "stamp" | "plain" | "bw" | "bw-stamp";
+type FrameType = "stamp" | "plain" | "polaroid" | "pink" | "yellow" | "cyan" | "dotted";
 
 function Photo({
   src,
@@ -90,7 +147,24 @@ function Photo({
   delay?: number;
   inView: boolean;
 }) {
-  const img = (
+  // Detect if it's a video or image
+  const isVideo = /\.(mov|mp4|webm|avi|mkv)$/i.test(src);
+
+  const content = isVideo ? (
+    <video
+      src={src}
+      autoPlay
+      loop
+      muted
+      style={{
+        width: typeof width === "number" ? `${width}px` : width,
+        height: typeof height === "number" ? `${height}px` : height,
+        objectFit: "cover",
+        display: "block",
+        filter: (frame === "bw" || frame === "bw-stamp") ? "grayscale(100%) contrast(1.1)" : undefined,
+      }}
+    />
+  ) : (
     <ImageWithFallback
       src={src}
       alt={alt}
@@ -112,11 +186,13 @@ function Photo({
       whileHover={{ scale: 1.04, rotate: 0, zIndex: 50 }}
       style={{ flexShrink: 0 }}
     >
-      {frame === "stamp" ? (
-        <StampFrame>{img}</StampFrame>
-      ) : (
-        <PlainFrame>{img}</PlainFrame>
-      )}
+      {frame === "stamp" && <StampFrame>{content}</StampFrame>}
+      {frame === "polaroid" && <PolaroidFrame>{content}</PolaroidFrame>}
+      {frame === "pink" && <ColoredFrame color="#ff6b9d">{content}</ColoredFrame>}
+      {frame === "yellow" && <ColoredFrame color="#ffd700">{content}</ColoredFrame>}
+      {frame === "cyan" && <ColoredFrame color="#00d9ff">{content}</ColoredFrame>}
+      {frame === "dotted" && <DottedFrame>{content}</DottedFrame>}
+      {frame === "plain" && <PlainFrame>{content}</PlainFrame>}
     </motion.div>
   );
 }
@@ -212,8 +288,8 @@ export function MemoryWallSection() {
             <Photo
               src={PHOTOS.p1}
               alt="memory 1"
-              width="clamp(140px, 22vw, 240px)"
-              height="clamp(130px, 20vw, 220px)"
+              width="clamp(160px, 25vw, 280px)"
+              height="clamp(150px, 23vw, 260px)"
               frame="plain"
               rotate={-1}
               delay={0.15}
@@ -225,9 +301,9 @@ export function MemoryWallSection() {
               <Photo
                 src={PHOTOS.p2}
                 alt="memory 2"
-                width="clamp(110px, 16vw, 175px)"
-                height="clamp(100px, 14vw, 155px)"
-                frame="stamp"
+                width="clamp(130px, 19vw, 210px)"
+                height="clamp(120px, 17vw, 185px)"
+                frame="pink"
                 rotate={2}
                 delay={0.25}
                 inView={inView}
@@ -239,9 +315,9 @@ export function MemoryWallSection() {
             <Photo
               src={PHOTOS.p3}
               alt="memory 3"
-              width="clamp(150px, 24vw, 270px)"
-              height="clamp(130px, 20vw, 220px)"
-              frame="plain"
+              width="clamp(170px, 27vw, 320px)"
+              height="clamp(150px, 23vw, 270px)"
+              frame="polaroid"
               rotate={-0.5}
               delay={0.2}
               inView={inView}
@@ -251,14 +327,14 @@ export function MemoryWallSection() {
           {/* ── ROW 2 ── */}
           <div className="flex flex-wrap items-start gap-3 md:gap-4 mt-1">
 
-            {/* Photo 4 B&W + caption below */}
+            {/* Photo 4 + caption below */}
             <div className="flex flex-col gap-2">
               <Photo
                 src={PHOTOS.p4}
                 alt="memory 4"
-                width="clamp(120px, 18vw, 200px)"
-                height="clamp(120px, 18vw, 200px)"
-                frame="bw"
+                width="clamp(140px, 20vw, 240px)"
+                height="clamp(140px, 20vw, 240px)"
+                frame="yellow"
                 rotate={-2}
                 delay={0.3}
                 inView={inView}
@@ -272,9 +348,9 @@ export function MemoryWallSection() {
               <Photo
                 src={PHOTOS.p5}
                 alt="memory 5"
-                width="clamp(100px, 15vw, 165px)"
-                height="clamp(90px, 13vw, 145px)"
-                frame="bw-stamp"
+                width="clamp(120px, 18vw, 200px)"
+                height="clamp(110px, 16vw, 175px)"
+                frame="cyan"
                 rotate={3}
                 delay={0.35}
                 inView={inView}
@@ -286,9 +362,9 @@ export function MemoryWallSection() {
               <Photo
                 src={PHOTOS.p6}
                 alt="memory 6"
-                width="clamp(120px, 18vw, 200px)"
-                height="clamp(110px, 16vw, 185px)"
-                frame="plain"
+                width="clamp(140px, 20vw, 240px)"
+                height="clamp(130px, 19vw, 220px)"
+                frame="dotted"
                 rotate={-1.5}
                 delay={0.25}
                 inView={inView}
@@ -301,14 +377,29 @@ export function MemoryWallSection() {
               <Photo
                 src={PHOTOS.p7}
                 alt="memory 7"
-                width="clamp(95px, 13vw, 145px)"
-                height="clamp(90px, 12vw, 135px)"
+                width="clamp(110px, 16vw, 175px)"
+                height="clamp(110px, 15vw, 165px)"
                 frame="stamp"
                 rotate={2.5}
                 delay={0.4}
                 inView={inView}
               />
               <Caption text={CAPTIONS.c5} delay={0.8} inView={inView} />
+            </div>
+
+            {/* Photo 8 + caption below */}
+            <div className="flex flex-col gap-2">
+              <Photo
+                src={PHOTOS.p8}
+                alt="memory 8"
+                width="clamp(130px, 19vw, 210px)"
+                height="clamp(120px, 17vw, 185px)"
+                frame="polaroid"
+                rotate={-1}
+                delay={0.45}
+                inView={inView}
+              />
+              <Caption text={CAPTIONS.c6} delay={0.85} inView={inView} />
             </div>
 
           </div>

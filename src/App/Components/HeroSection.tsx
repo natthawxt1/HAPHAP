@@ -55,7 +55,7 @@ export function HeroSection() {
       style={{
         position: "relative",
         minHeight: "100vh",
-        background: "#0d1117",
+        background: "linear-gradient(135deg, #0d1117 0%, #1a0f1f 50%, #0d1117 100%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -88,39 +88,54 @@ export function HeroSection() {
               value={inputDate}
               onChange={(e) => setInputDate(e.target.value)}
               style={{
-                padding: "10px 15px",
+                padding: "12px 20px",
                 fontSize: "1rem",
-                border: "2px solid #c9a96e",
-                borderRadius: "4px",
-                width: "150px",
+                border: "2px solid transparent",
+                borderImage: "linear-gradient(135deg, #ff6b9d 0%, #ffa500 100%) 1",
+                borderRadius: "8px",
+                width: "180px",
                 fontWeight: 600,
-                backgroundColor: "#1c1f26",
+                backgroundColor: "rgba(28, 31, 38, 0.8)",
                 color: "#fff",
+                transition: "all 0.3s ease",
+                boxShadow: "0 0 10px rgba(255, 107, 157, 0.2)",
+              }}
+              onFocus={(e) => {
+                const el = e.currentTarget;
+                el.style.boxShadow = "0 0 20px rgba(255, 107, 157, 0.5)";
+                el.style.backgroundColor = "rgba(28, 31, 38, 0.95)";
+              }}
+              onBlur={(e) => {
+                const el = e.currentTarget;
+                el.style.boxShadow = "0 0 10px rgba(255, 107, 157, 0.2)";
+                el.style.backgroundColor = "rgba(28, 31, 38, 0.8)";
               }}
             />
             <button
               type="submit"
               style={{
-                padding: "10px 20px",
+                padding: "12px 28px",
                 fontSize: "1rem",
                 fontWeight: 800,
-                backgroundColor: "#c9a96e",
-                color: "#0d1117",
+                background: "linear-gradient(135deg, #ff6b9d 0%, #ffa500 100%)",
+                color: "#fff",
                 border: "none",
-                borderRadius: "4px",
+                borderRadius: "8px",
                 cursor: "pointer",
                 textTransform: "uppercase",
-                transition: "all 0.1s linear",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 15px rgba(255, 107, 157, 0.4)",
+                letterSpacing: "1px",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget;
-                el.style.backgroundColor = "#d4af6f";
-                el.style.transform = "scale(1.05)";
+                el.style.transform = "translateY(-2px)";
+                el.style.boxShadow = "0 6px 25px rgba(255, 107, 157, 0.6)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget;
-                el.style.backgroundColor = "#c9a96e";
-                el.style.transform = "scale(1)";
+                el.style.transform = "translateY(0)";
+                el.style.boxShadow = "0 4px 15px rgba(255, 107, 157, 0.4)";
               }}
             >
               Check
